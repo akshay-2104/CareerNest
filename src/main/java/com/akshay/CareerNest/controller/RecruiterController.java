@@ -1,0 +1,42 @@
+package com.akshay.CareerNest.controller;
+
+import com.akshay.CareerNest.entity.JobPost;
+import com.akshay.CareerNest.service.JobPostService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/recruiter")
+public class RecruiterController {
+
+    private final JobPostService jobPostService;
+
+    public RecruiterController(JobPostService jobPostService) {
+        this.jobPostService = jobPostService;
+    }
+
+    // ✅ Create Job Post
+    @PostMapping("/jobs")
+    public JobPost createJob(@RequestBody JobPost jobPost) {
+        return jobPostService.createJob(jobPost);
+    }
+
+    // ✅ Get All Job Posts
+    @GetMapping("/jobs")
+    public List<JobPost> getAllJobs() {
+        return jobPostService.getAllJobs();
+    }
+
+    // ✅ Update Job Post
+    @PutMapping("/jobs/{id}")
+    public JobPost updateJob(@PathVariable Long id, @RequestBody JobPost jobDetails) {
+        return jobPostService.updateJob(id, jobDetails);
+    }
+
+    // ✅ Delete Job Post
+    @DeleteMapping("/jobs/{id}")
+    public void deleteJob(@PathVariable Long id) {
+        jobPostService.deleteJob(id);
+    }
+}
