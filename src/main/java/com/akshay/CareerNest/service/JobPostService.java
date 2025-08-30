@@ -1,7 +1,7 @@
 package com.akshay.CareerNest.service;
 
-import com.akshay.CareerNest.model.JobPost;
-import com.akshay.CareerNest.repository.JobPostRepository;
+import com.akshay.CareerNest.entity.JobPost;
+import com.akshay.CareerNest.repository.JobRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class JobPostService {
 
-    private final JobPostRepository jobPostRepository;
+    private final JobRepository jobPostRepository;
 
-    public JobPostService(JobPostRepository jobPostRepository) {
+    public JobPostService(JobRepository jobPostRepository) {
         this.jobPostRepository = jobPostRepository;
     }
 
