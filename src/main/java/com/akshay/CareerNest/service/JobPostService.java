@@ -23,7 +23,7 @@ public class JobPostService {
         return jobPostRepository.findAll();
     }
 
-    public JobPost updateJob(Long id, JobPost jobDetails) {
+    public JobPost updateJob(String id, JobPost jobDetails) {
         JobPost jobPost = jobPostRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found with id " + id));
 
@@ -38,7 +38,7 @@ public class JobPostService {
         return jobPostRepository.save(jobPost);
     }
 
-    public void deleteJob(Long id) {
+    public void deleteJob(String id) {
         jobPostRepository.deleteById(id);
     }
 }

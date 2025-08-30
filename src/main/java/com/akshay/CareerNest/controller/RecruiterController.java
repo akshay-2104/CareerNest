@@ -30,13 +30,13 @@ public class RecruiterController {
 
     // ✅ Update Job Post
     @PutMapping("/jobs/{id}")
-    public JobPost updateJob(@PathVariable Long id, @RequestBody JobPost jobDetails) {
+    public JobPost updateJob(@PathVariable String id, @RequestBody JobPost jobDetails) {
         return jobPostService.updateJob(id, jobDetails);
     }
 
     // ✅ Delete Job Post
     @DeleteMapping("/jobs/{id}")
-    public void deleteJob(@PathVariable Long id) {
+    public void deleteJob(@PathVariable String id) {
         jobPostService.deleteJob(id);
     }
 }
