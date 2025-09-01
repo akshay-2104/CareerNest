@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends MongoRepository<Application, String> {
+
     List<Application> findByJobId(String jobId);
+    long countByJobId(String jobId);
 }

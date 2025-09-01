@@ -18,18 +18,19 @@ public class ApplicationController {
     @Autowired
     private ApplicationService applicationService;
 
-    // Candidate applies for a specific job
     @PostMapping("/apply/{jobId}")
     public ResponseEntity<Application> applyForJob(
             @PathVariable String jobId,
             @RequestParam("application") String applicationJson,
             @RequestParam("resume") MultipartFile resume) throws IOException {
 
-        // Convert JSON string into Application object
-        ObjectMapper objectMapper = new ObjectMapper();
-        Application application = objectMapper.readValue(applicationJson, Application.class);
+        // Convert JSON string to Application object
+        ObjectMapper mapper = new ObjectMapper();
+        Application application = mapper.readValue(applicationJson, Application.class);
 
+        // Delegate saving (resume + db record) to service
         Application savedApplication = applicationService.applyToJob(jobId, application, resume);
+
         return ResponseEntity.ok(savedApplication);
     }
 
@@ -39,4 +40,11 @@ public class ApplicationController {
         List<Application> applications = applicationService.getApplicationsForJob(jobId);
         return ResponseEntity.ok(applications);
     }
+    // Get number of applicants for a job
+    @GetMapping("/job/{jobId}/count")
+    public ResponseEntity<Long> getApplicantCountForJob(@PathVariable String jobId) {
+        long count = applicationService.countApplicationsForJob(jobId);
+        return ResponseEntity.ok(count);
+    }
+
 }
