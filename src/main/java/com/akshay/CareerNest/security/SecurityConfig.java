@@ -30,14 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/signup", "/auth/login").permitAll() // allow signup & login
+                .antMatchers("/auth/signup", "/auth/login", "/auth/login/").permitAll() // allow both
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().disable() // keep form login disabled
-                .logout().permitAll();
+                .formLogin().disable()   // disable default login page
+                .httpBasic();            // keep basic auth for APIs
     }
+
+
+
 
 
 
