@@ -34,17 +34,4 @@ public class ApplicationController {
         return ResponseEntity.ok(savedApplication);
     }
 
-    // Recruiter views all applications for a specific job
-    @GetMapping("/job/{jobId}")
-    public ResponseEntity<List<Application>> getApplicationsForJob(@PathVariable String jobId) {
-        List<Application> applications = applicationService.getApplicationsForJob(jobId);
-        return ResponseEntity.ok(applications);
-    }
-    // Get number of applicants for a job
-    @GetMapping("/job/{jobId}/count")
-    public ResponseEntity<Long> getApplicantCountForJob(@PathVariable String jobId) {
-        long count = applicationService.countApplicationsForJob(jobId);
-        return ResponseEntity.ok(count);
-    }
-
 }

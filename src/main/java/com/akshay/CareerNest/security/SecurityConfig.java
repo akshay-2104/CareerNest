@@ -33,16 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/signup", "/auth/login", "/auth/login/").permitAll() // allow both
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
+              //  .antMatchers("/recruiter/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()   // disable default login page
                 .httpBasic();            // keep basic auth for APIs
     }
-
-
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

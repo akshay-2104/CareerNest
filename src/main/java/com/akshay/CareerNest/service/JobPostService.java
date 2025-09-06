@@ -1,6 +1,8 @@
 package com.akshay.CareerNest.service;
 
+import com.akshay.CareerNest.entity.Application;
 import com.akshay.CareerNest.entity.JobPost;
+import com.akshay.CareerNest.repository.ApplicationRepository;
 import com.akshay.CareerNest.repository.JobRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,9 @@ import java.util.List;
 public class JobPostService {
 
     private final JobRepository jobPostRepository;
+
+    private ApplicationRepository applicationRepository;
+
 
     public JobPostService(JobRepository jobPostRepository) {
         this.jobPostRepository = jobPostRepository;
@@ -40,5 +45,9 @@ public class JobPostService {
 
     public void deleteJob(String id) {
         jobPostRepository.deleteById(id);
+    }
+
+    public long countApplicationsForJob(String jobId) {
+        return applicationRepository.countByJobId(jobId);
     }
 }

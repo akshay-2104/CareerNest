@@ -43,11 +43,6 @@ public class ApplicationService {
         return applicationRepository.save(application);
     }
 
-    public List<Application> getApplicationsForJob(String jobId) {
-        return applicationRepository.findByJobId(jobId);
-    }
-    public long countApplicationsForJob(String jobId) {
-        return applicationRepository.countByJobId(jobId);
-    }
+
 
 }

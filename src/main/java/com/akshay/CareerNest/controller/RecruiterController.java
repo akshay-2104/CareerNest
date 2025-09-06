@@ -2,12 +2,13 @@ package com.akshay.CareerNest.controller;
 
 import com.akshay.CareerNest.entity.JobPost;
 import com.akshay.CareerNest.service.JobPostService;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recruiter")
+@RequestMapping("/recruiter")
 public class RecruiterController {
 
     private final JobPostService jobPostService;
@@ -38,5 +39,11 @@ public class RecruiterController {
     @DeleteMapping("/jobs/{id}")
     public void deleteJob(@PathVariable String id) {
         jobPostService.deleteJob(id);
+    }
+
+    @GetMapping("/jobs/count/{id}")
+    public long count(@PathVariable String id)
+    {
+     return jobPostService.countApplicationsForJob(id);
     }
 }
