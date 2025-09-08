@@ -4,6 +4,7 @@ import com.akshay.CareerNest.entity.Application;
 import com.akshay.CareerNest.entity.JobPost;
 import com.akshay.CareerNest.repository.ApplicationRepository;
 import com.akshay.CareerNest.repository.JobRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class JobPostService {
 
     private final JobRepository jobPostRepository;
-
+   @Autowired
     private ApplicationRepository applicationRepository;
 
 
