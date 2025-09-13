@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/applications")
+@RequestMapping("/applicant")
 public class ApplicationController {
 
     @Autowired

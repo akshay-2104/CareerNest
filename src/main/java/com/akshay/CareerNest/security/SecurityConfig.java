@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -30,15 +31,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/signup", "/auth/login", "/auth/login/").permitAll() // allow both
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
-              //  .antMatchers("/recruiter/**").hasRole("ADMIN")
+                .antMatchers("/auth/signup").permitAll() // allow signup
+                .antMatchers("/recruiter/**").hasRole("ADMIN")// ✅ Only ADMIN can hit recruiter APIs
+                .antMatchers("/applicant/**").hasRole("USER")// ✅ Only USER can hit appliacation APIs
                 .anyRequest().authenticated()
                 .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 👈 no sessions
+                .and()
                 .formLogin().disable()   // disable default login page
-                .httpBasic();            // keep basic auth for APIs
+                .httpBasic();            // use basic auth for APIs
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

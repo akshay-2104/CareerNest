@@ -54,23 +54,6 @@ public class AuthController {
         return "User registered successfully with role " + role.getName();
     }
 
-    // Login endpoint
-    @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String password) {
-        try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
 
-            if(auth.isAuthenticated()) {
-                return "Login successful for user: " + username;
-            } else {
-                return "Login failed!";
-            }
 
-        } catch (AuthenticationException e) {
-            return "Login failed: " + e.getMessage();
-        }
-    }
 }
