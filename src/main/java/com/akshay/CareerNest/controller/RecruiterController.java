@@ -2,6 +2,7 @@ package com.akshay.CareerNest.controller;
 
 import com.akshay.CareerNest.entity.JobPost;
 import com.akshay.CareerNest.service.JobPostService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/recruiter/private")
+@Tag(name = "Recruiter API's",description = "Create Job post, Get All Job Posts, Update Job Post, Delete Job Post, Get count of Applicants")
 public class RecruiterController {
 
     private final JobPostService jobPostService;
