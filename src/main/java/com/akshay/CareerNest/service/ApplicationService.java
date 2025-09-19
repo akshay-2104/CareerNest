@@ -18,7 +18,9 @@ public class ApplicationService {
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    // Load path from application.properties
+    @Autowired
+    private EmailService emailService;
+
     @Value("${file.upload-dir}")
     private String uploadDir;
 
@@ -29,20 +31,27 @@ public class ApplicationService {
             uploadFolder.mkdirs();
         }
 
-        // Generate unique file name for resume
+        // Generate unique file name
         String resumeFileName = UUID.randomUUID() + "_" + resume.getOriginalFilename();
         String resumePath = uploadFolder.getAbsolutePath() + File.separator + resumeFileName;
 
-        // Save resume to local file system
+        // Save resume
         resume.transferTo(new File(resumePath));
 
         // Set values in application
         application.setJobId(jobId);
         application.setResumePath(resumePath);
 
-        return applicationRepository.save(application);
+        // Save application in DB
+        Application savedApplication = applicationRepository.save(application);
+
+        //  Send confirmation email
+        emailService.sendJobApplicationEmail(
+                application.getEmail(),      // Assuming Application entity has email
+                jobId,
+                application.getName()        // Assuming Application entity has name
+        );
+
+        return savedApplication;
     }
-
-
-
 }
