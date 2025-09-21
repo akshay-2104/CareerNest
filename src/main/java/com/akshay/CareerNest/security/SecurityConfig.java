@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable()   // disable default login page
                 .httpBasic();            // use basic auth for APIs
+
     }
 
 
