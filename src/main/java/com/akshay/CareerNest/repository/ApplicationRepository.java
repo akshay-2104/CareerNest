@@ -12,4 +12,7 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
     List<Application> findByJobId(String jobId);
 
     long countByJobId(String jobId);
+    List<Application> findByUserId(String userId);
+
+
 }
