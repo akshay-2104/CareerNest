@@ -20,8 +20,7 @@ public class User {
     private String username;
     private String password;
 
-    @DBRef
-    private List<JobPost> appliedJobs = new ArrayList<>();
+
 
     @DBRef
     private Role role;  // single role (USER or ADMIN)

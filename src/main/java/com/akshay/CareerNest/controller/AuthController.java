@@ -1,13 +1,11 @@
 package com.akshay.CareerNest.controller;
 
-import com.akshay.CareerNest.entity.Application;
 import com.akshay.CareerNest.entity.JobPost;
 import com.akshay.CareerNest.entity.Role;
 import com.akshay.CareerNest.entity.User;
 import com.akshay.CareerNest.repository.JobRepository;
 import com.akshay.CareerNest.repository.RoleRepository;
 import com.akshay.CareerNest.repository.UserRepository;
-import com.akshay.CareerNest.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +30,8 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ApplicationService applicationService;
 
-    // ✅ Signup endpoint
+    // Signup endpoint
     @PostMapping("/signup")
     public String signup(@RequestParam String username,
                          @RequestParam String password,
@@ -52,7 +48,7 @@ public class AuthController {
 
         User user = User.builder()
                 .username(username)
-                .password(passwordEncoder.encode(password)) // hash password
+                .password(passwordEncoder.encode(password))
                 .role(role)
                 .build();
 
@@ -60,15 +56,15 @@ public class AuthController {
         return "✅ User registered successfully with role " + role.getName();
     }
 
-    // ✅ Login endpoint (same for USER and ADMIN, but response changes based on role)
+    // Login endpoint – only shows available jobs
     @GetMapping("/login")
     public Object login(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return "❌ Authentication failed!";
         }
 
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElse(null);
+        String email = authentication.getName(); // Spring Security username
+        User user = userRepository.findByUsername(email).orElse(null);
 
         if (user == null) {
             return "❌ User not found!";
@@ -76,23 +72,19 @@ public class AuthController {
 
         String role = user.getRole().getName();
 
-        // If USER → return jobs list
         if ("ROLE_USER".equals(role)) {
-            List<JobPost> jobs = jobRepository.findAll();
-            List<Application> appliedJobs = applicationService.getApplicationsByUser(user.getId());
+            List<JobPost> availableJobs = jobRepository.findAll();
 
             return Map.of(
                     "message", "✅ Login successful",
-                    "role", user.getRole().getName(),
-                    "availableJobs", jobs,
-                    "appliedJobs", appliedJobs);
-
+                    "role", role,
+                    "availableJobs", availableJobs
+            );
         }
 
-        // If ADMIN → return available admin options
         if ("ROLE_ADMIN".equals(role)) {
             Map<String, Object> adminOptions = new HashMap<>();
-            adminOptions.put("message", "Welcome Admin " + username);
+            adminOptions.put("message", "Welcome Admin " + email);
             adminOptions.put("endpoints", new String[]{
                     "/recruiter/private/jobs [POST] → Create Job Post",
                     "/recruiter/private/jobs [GET] → Get All Job Posts",

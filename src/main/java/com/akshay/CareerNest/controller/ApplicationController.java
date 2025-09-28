@@ -24,14 +24,11 @@ public class ApplicationController {
             @RequestParam("application") String applicationJson,
             @RequestParam("resume") MultipartFile resume) throws IOException {
 
-        // Convert JSON string to Application object
         ObjectMapper mapper = new ObjectMapper();
         Application application = mapper.readValue(applicationJson, Application.class);
 
-        // Delegate saving (resume + db record) to service
         Application savedApplication = applicationService.applyToJob(jobId, application, resume);
 
         return ResponseEntity.ok(savedApplication);
     }
-
 }
